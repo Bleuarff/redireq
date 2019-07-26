@@ -7,11 +7,11 @@
   "description": "Redirects requests to another host, live",
 
   "background": {
-    "scripts": ["switcherhost.js"],
+    "scripts": ["switcherhost.js"]
   },
 
   "permissions": [
-    "*://developer.mozilla.org/",
+    "<all_urls>",
     "webRequest",
     "webRequestBlocking"
   ]
