@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 1em;
+}
+#table{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
