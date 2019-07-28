@@ -3,7 +3,6 @@
 /* UI script */
 
 // TODO:
-// - start/stop background script from
 // - bgscript retrieve configs from locale storage on init
 // - show existing confs & handle checkbox
 // - delete conf
@@ -16,7 +15,7 @@ addRow()
 const configs = retrieveConfs()
 
 // add new config (handler)
-function addConfig(e){
+async function addConfig(e){
   let src = e.currentTarget.parentElement.getElementsByClassName('src')[0].value.trim(),
       dest = e.currentTarget.parentElement.getElementsByClassName('dest')[0].value.trim()
 
@@ -26,12 +25,16 @@ function addConfig(e){
        src: src, dest: dest
      })
      // TODO: else: bold border on offender
-     // TODO: update local storage - need permission in manifest?
+     // TODO: update local storage
 
      // Update background script
-     console.log(configs)
+     try{
+       await browser.runtime.sendMessage(configs)
+     }
+     catch(ex){
+       console.error(ex)
+     }
    }
-
 }
 
 // TODO: get from locale storage
