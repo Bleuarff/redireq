@@ -25,12 +25,14 @@ function redirect(details){
 // handles binding onBeforeRequest & redirections
 class Switcherhost{
   constructor(){
-    // hosts redirections
-    this.mapping = {
-      // '//news.ycombinator.com': '//www.discoverdev.io'
-      // '//coin.fr': '//www.pouet.com'
-    }
-    this.sources = Object.keys(this.mapping)
+    this.mapping = null // [{src: dest}] mapping
+    this.sources = null // array of source hosts
+    const STORAGE_KEY = 'configs'
+    
+    // retrieve from storage & transform to internal format
+    const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
+    this.updateConfigs(configs)
+    console.debug(`found ${Object.keys(this.mapping).length} configs stored.`)
   }
 
   start(){
@@ -40,7 +42,7 @@ class Switcherhost{
     }
 
     console.log(Date.now() + ' Switcherhost start...')
-    console.log(this.mapping)
+    // console.log(this.mapping)
 
     // build filter list for source hosts, so as to not watch for every request
     const urlFilter = this.sources.map(x => '*:' + x + '/*')
@@ -68,9 +70,10 @@ class Switcherhost{
     }
   }
 
+  // updates mapping from [{src, dest, enabled}] array of objects
   updateConfigs(configs){
     const mapping = {}
-    configs.forEach(({src, dest}) => {
+    configs.filter(x => x.enabled).forEach(({src, dest}) => {
       mapping['//' + src] = '//' + dest
     })
     this.mapping = mapping

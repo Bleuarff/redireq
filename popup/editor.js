@@ -3,24 +3,27 @@
 /* UI script */
 
 // TODO:
-// - bgscript retrieve configs from locale storage on init
-// - show existing confs & handle checkbox
+// - handle checkbox
+// - edition
 // - delete conf
 // - style
+// - icon on button to show how many enabled configs
 
 // start
 console.log('open editor')
 const STORAGE_KEY = 'configs'
-const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || []
+const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
 
 init()
 
 function init(){
   console.debug(`found ${configs.length} configs stored.`)
+
+  // show all configs
   configs.forEach(cfg => {
     addRow(cfg)
   })
-  // bind add config button
+
   document.getElementById('add-btn').addEventListener('click', addConfig)
 }
 
