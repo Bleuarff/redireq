@@ -7,3 +7,7 @@ body {
   flex-flow: column nowrap;
   align-items: stretch;
 }
+
+#new-row{
+  margin-top: 2em;
+}
