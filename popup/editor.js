@@ -3,9 +3,9 @@
 /* UI script */
 
 // TODO:
+// - delete conf
 // - handle checkbox
 // - edition
-// - delete conf
 // - style
 // - icon on button to show how many enabled configs
 
@@ -20,8 +20,8 @@ function init(){
   console.debug(`found ${configs.length} configs stored.`)
 
   // show all configs
-  configs.forEach(cfg => {
-    addRow(cfg)
+  configs.forEach((cfg, i) => {
+    addRow(cfg, i)
   })
 
   document.getElementById('add-btn').addEventListener('click', addConfig)
@@ -45,7 +45,7 @@ async function addConfig(e){
        await browser.runtime.sendMessage(configs)
        // update local storage
        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(configs))
-       addRow(newConf) // add row to list
+       addRow(newConf, configs.length - 1) // add row to list
        srcNd.value = '' // empty new row fields
        destNd.value = ''
      }
@@ -58,18 +58,50 @@ async function addConfig(e){
 }
 
 // inserts row in ui, bind controls
-function addRow(data = { src: '', dest: '', enabled: true}){
+function addRow(data = { src: '', dest: '', enabled: true}, idx){
   const nd = document.createElement('div')
   nd.classList.add('row')
+  nd.dataset.idx = idx
   const tmpl = `
-    <input type="text" class="src" placeholder="source host" value="${data.src}"></input>
+    <input type="text" class="src" value="${data.src}" disabled placeholder="source host"></input>
     →
-    <input type="text" class="dest" placeholder="destination host" value="${data.dest}"></input>
-    <input type="checkbox" ${data.enabled ? 'checked' : ''}><label>Enabled</label>
+    <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
+    <input type="checkbox" ${data.enabled ? 'checked' : ''} class="state"><label>Enabled</label>
+    <button class="edit">Edit</button>
   `
   nd.innerHTML = tmpl
-
+  nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
   const ctnr = document.getElementById('row-ctnr')
   ctnr.appendChild(nd)
 
+}
+
+// edit/save button handler: make editable or save modifs
+function edit(e){
+  const srcNd = e.currentTarget.parentElement.getElementsByClassName('src')[0],
+        destNd = e.currentTarget.parentElement.getElementsByClassName('dest')[0]
+
+  // checks for class on row block
+  if (e.currentTarget.parentElement.classList.contains('edit')){
+    // save
+    if (srcNd.value && destNd.value){
+      const idx = parseInt(e.currentTarget.parentElement.dataset.idx, 10),
+            conf = configs[idx]
+      conf.src = srcNd.value
+      conf.dest = destNd.value
+      conf.enabled = !e.currentTarget.parentElement.getElementsByClassName('state')[0].checked
+
+      srcNd.disabled = true
+      destNd.disabled = true
+      e.currentTarget.innerText = 'Edit'
+    }
+  }
+  else{
+    // make editable
+    srcNd.disabled = false
+    destNd.disabled = false
+    srcNd.focus()
+    e.currentTarget.innerText = 'Save'
+  }
+  e.currentTarget.parentElement.classList.toggle('edit')
 }
