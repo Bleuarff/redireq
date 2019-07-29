@@ -60,7 +60,6 @@ class Switcherhost{
       const bound = browser.webRequest.onBeforeRequest.hasListener(redirect)
       if (bound){
         browser.webRequest.onBeforeRequest.removeListener(redirect)
-        console.log(Date.now() + ' Switcherhost stop.')
       }
       this.start()
     }
