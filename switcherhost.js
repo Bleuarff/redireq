@@ -37,14 +37,13 @@ class Switcherhost{
 
   start(){
     if (this.sources.length === 0){
-      console.log('no host to redirect')
+      console.debug('Switcherhost start: no host to redirect, cancel.')
       return
     }
 
     console.log(Date.now() + ` Switcherhost start: ${this.sources.length} host${this.sources.length > 1 ? 's': ''}`)
-    // console.log(this.mapping)
 
-    // build filter list for source hosts, so as to not watch for every request
+    // build filter list from source hosts, so as to not watch for every request
     const urlFilter = this.sources.map(x => '*:' + x + '/*')
 
     browser.webRequest.onBeforeRequest.addListener(
@@ -61,7 +60,7 @@ class Switcherhost{
       const bound = browser.webRequest.onBeforeRequest.hasListener(redirect)
       if (bound){
         browser.webRequest.onBeforeRequest.removeListener(redirect)
-        console.debug('stop listener')
+        console.log(Date.now() + ' Switcherhost stop.')
       }
       this.start()
     }

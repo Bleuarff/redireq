@@ -4,13 +4,9 @@
 
 // TODO:
 // - delete conf
-// - handle checkbox
-// - edition
 // - style
 // - icon on button to show how many enabled configs
 
-// start
-console.log('open editor')
 const STORAGE_KEY = 'configs'
 const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
 
@@ -69,11 +65,13 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx){
     <input type="text" class="src" value="${data.src}" disabled placeholder="source host"></input>
     →
     <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
-    <input type="checkbox" ${data.enabled ? 'checked' : ''} class="state"><label>Enabled</label>
     <button class="edit">Edit</button>
+    <input type="checkbox" id="row-${idx}"class="state" ${data.enabled ? 'checked' : ''}><label for="row-${idx}">Enabled</label>
+
   `
   nd.innerHTML = tmpl
   nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
+  nd.getElementsByClassName('state')[0].addEventListener('click', toggleEnable)
   const ctnr = document.getElementById('row-ctnr')
   ctnr.appendChild(nd)
 
@@ -117,4 +115,20 @@ async function edit(e){
     target.innerText = 'Save'
   }
   target.parentElement.classList.toggle('edit')
+}
+
+// checkbox change handler: update state
+async function toggleEnable(e){
+  const idx = parseInt(e.currentTarget.parentElement.dataset.idx, 10),
+        conf = configs[idx],
+        enabled = e.currentTarget.checked
+
+  conf.enabled = enabled
+  try{
+    await save()
+  }
+  catch(ex){
+    console.log(ex)
+  }
+
 }
