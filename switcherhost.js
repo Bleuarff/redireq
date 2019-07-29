@@ -28,7 +28,7 @@ class Switcherhost{
     this.mapping = null // [{src: dest}] mapping
     this.sources = null // array of source hosts
     const STORAGE_KEY = 'configs'
-    
+
     // retrieve from storage & transform to internal format
     const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
     this.updateConfigs(configs)
@@ -41,7 +41,7 @@ class Switcherhost{
       return
     }
 
-    console.log(Date.now() + ' Switcherhost start...')
+    console.log(Date.now() + ` Switcherhost start: ${this.sources.length} host${this.sources.length > 1 ? 's': ''}`)
     // console.log(this.mapping)
 
     // build filter list for source hosts, so as to not watch for every request
