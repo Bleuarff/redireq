@@ -4,7 +4,7 @@
 
 // TODO:
 // - style
-// - icon in address bar for redirected urls (page action)
+// - error mgmt
 
 const STORAGE_KEY = 'configs'
 const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
@@ -69,7 +69,7 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
   nd.dataset.idx = idx
   const tmpl = `
     <input type="text" class="src" value="${data.src}" disabled placeholder="source host"></input>
-    →
+    <span class="separator">→</span>
     <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
     <button class="edit">Edit</button>
     <input type="checkbox" id="row-${idx}"class="state" ${data.enabled ? 'checked' : ''}><label for="row-${idx}">Enabled</label>
