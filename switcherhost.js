@@ -36,6 +36,8 @@ class Switcherhost{
   }
 
   start(){
+    this.updateBadge()
+
     if (this.sources.length === 0){
       console.debug('Switcherhost start: no host to redirect, cancel.')
       return
@@ -76,6 +78,13 @@ class Switcherhost{
     })
     this.mapping = mapping
     this.sources = Object.keys(this.mapping)
+  }
+
+  updateBadge(){
+    const count = this.sources.length
+    browser.browserAction.setBadgeText({text: count.toString()})
+    browser.browserAction.setBadgeTextColor({color: 'white'})
+    browser.browserAction.setBadgeBackgroundColor({color: count ? '#666666' : '#a1a1a1'})
   }
 }
 

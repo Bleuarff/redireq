@@ -4,7 +4,7 @@
 
 // TODO:
 // - style
-// - icon on button to show how many enabled configs
+// - icon in address bar for redirected urls (page action)
 
 const STORAGE_KEY = 'configs'
 const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
@@ -161,5 +161,4 @@ async function toggleEnable(e){
   catch(ex){
     console.log(ex)
   }
-
 }
