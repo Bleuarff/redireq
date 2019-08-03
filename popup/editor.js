@@ -36,7 +36,8 @@ async function addConfig(e){
         destNd = e.currentTarget.parentElement.getElementsByClassName('dest')[0],
         dest = destNd.value.trim()
 
-
+    console.log(srcNd.innerHTML)
+    console.log(dest.innerHTML)
     // TODO: validate values (via URL?)
    if (src && dest){
      const newConf = { src: src, dest: dest, enabled: true }
@@ -64,16 +65,24 @@ async function save(){
 
 // inserts row in ui, bind controls
 function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
-  const nd = document.createElement('div')
+  const nd = document.createElement('tr')
   nd.classList.add('row')
   nd.dataset.idx = idx
   const tmpl = `
-    <input type="text" class="src" value="${data.src}" disabled placeholder="source host"></input>
-    <span class="separator">→</span>
-    <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
-    <button class="edit">Edit</button>
-    <input type="checkbox" id="row-${idx}"class="state" ${data.enabled ? 'checked' : ''}><label for="row-${idx}">Enabled</label>
-
+    <td>
+      <input type="text" class="src" value="${data.src}" disabled placeholder="source host"></input>
+    </td>
+    <td class="separator">→</td>
+    <td>
+      <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
+    </td>
+    <td>
+      <button class="edit">Edit</button>
+    </td>
+    <td>
+      <input type="checkbox" id="row-${idx}" class="state" ${data.enabled ? 'checked' : ''}><label for="row-${idx}">Enabled</label>
+    </td>
+    <td></td>
   `
   nd.innerHTML = tmpl
   nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
@@ -86,20 +95,20 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
 
 // edit/save button handler: make editable or save modifs
 async function edit(e){
-  const srcNd = e.currentTarget.parentElement.getElementsByClassName('src')[0],
-        destNd = e.currentTarget.parentElement.getElementsByClassName('dest')[0],
+  const srcNd = e.currentTarget.parentElement.parentElement.getElementsByClassName('src')[0],
+        destNd = e.currentTarget.parentElement.parentElement.getElementsByClassName('dest')[0],
         target = e.currentTarget,
-        idx = parseInt(target.parentElement.dataset.idx, 10)
+        idx = parseInt(target.parentElement.parentElement.dataset.idx, 10)
 
   // checks for class on row block
-  if (e.currentTarget.parentElement.classList.contains('edit')){
+  if (e.currentTarget.parentElement.parentElement.classList.contains('edit')){
     // save
     // TODO: more validation? tryparse?
     if (srcNd.value && destNd.value){
       const conf = configs[idx]
       conf.src = srcNd.value
       conf.dest = destNd.value
-      conf.enabled = !!e.currentTarget.parentElement.getElementsByClassName('state')[0].checked
+      conf.enabled = !!e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].checked
 
       try{
         await save()
@@ -108,8 +117,8 @@ async function edit(e){
         srcNd.disabled = true
         destNd.disabled = true
         target.innerText = 'Edit'
-        const delNd = target.parentElement.lastElementChild
-        target.parentElement.removeChild(delNd)
+        const delNd = target.parentElement.parentElement.lastElementChild.firstChild
+        target.parentElement.parentElement.lastElementChild.removeChild(delNd)
 
       }catch(ex){
         // TODO: show error
@@ -129,14 +138,14 @@ async function edit(e){
     delNd.classList.add('delete')
     delNd.innerHTML = 'X'
     delNd.addEventListener('click', deleteConfig)
-    target.parentElement.appendChild(delNd)
+    target.parentElement.parentElement.lastElementChild.appendChild(delNd)
   }
-  target.parentElement.classList.toggle('edit')
+  target.parentElement.parentElement.classList.toggle('edit')
 }
 
 // delete button handler
 async function deleteConfig(e){
-  const idx = parseInt(e.currentTarget.parentElement.dataset.idx, 10)
+  const idx = parseInt(e.currentTarget.parentElement.parentElement.dataset.idx, 10)
   try{
     configs.splice(idx, 1)
     await save()
@@ -150,7 +159,7 @@ async function deleteConfig(e){
 
 // checkbox change handler: update state
 async function toggleEnable(e){
-  const idx = parseInt(e.currentTarget.parentElement.dataset.idx, 10),
+  const idx = parseInt(e.currentTarget.parentElement.parentElement.dataset.idx, 10),
         conf = configs[idx],
         enabled = e.currentTarget.checked
 

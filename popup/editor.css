@@ -8,6 +8,7 @@ body {
   font-family: Arial;
   background: #383838;
   color: white;
+  padding-top: 1.5em;
 }
 
 h1{
@@ -16,7 +17,28 @@ h1{
 }
 
 .row{
+  margin-bottom: .5em;
+  /* display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center; */
 }
+
+.row :first-child{
+  text-align: right;
+}
+
+.row input.src{
+  text-align:right;
+  direction: rtl;
+}
+
+.row :last-child{
+  /* margin-right: 2em; */
+}
+/* .row.edit label{
+  margin
+} */
 
 .row input[disabled]{
   border: none;
@@ -29,11 +51,13 @@ h1{
 }
 
 .separator{
-  font-size: 1.5em;
+  font-size: 1.4em;
 }
 
 input[type=text]{
   width: 20em;
+  min-width: 20em;
+  margin: none;
 }
 
 button{
