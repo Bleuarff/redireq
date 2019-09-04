@@ -77,12 +77,16 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
       <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
     </td>
     <td>
-      <button class="edit">Edit</button>
+      <span class="edit picto">&#9998;</span>
+      <!--<button class="edit">Edit</button>-->
     </td>
     <td>
-      <input type="checkbox" id="row-${idx}" class="state" ${data.enabled ? 'checked' : ''}><label for="row-${idx}">Enabled</label>
+      <span id="row-${idx}" class="state picto" data-enabled="${data.enabled ? 'true' : 'false'}">✓</span>
+      <!--<input type="checkbox" id="row-${idx}" class="state" ${data.enabled ? 'checked' : ''}>-->
     </td>
-    <td></td>
+    <td>
+      <span class="delete picto">&#x2715;</span>
+    </td>
   `
   nd.innerHTML = tmpl
   nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
@@ -108,7 +112,7 @@ async function edit(e){
       const conf = configs[idx]
       conf.src = srcNd.value
       conf.dest = destNd.value
-      conf.enabled = !!e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].checked
+      conf.enabled = (e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].dataset.enabled === 'true')
 
       try{
         await save()
@@ -116,9 +120,10 @@ async function edit(e){
         // revert editing mode
         srcNd.disabled = true
         destNd.disabled = true
-        target.innerText = 'Edit'
-        const delNd = target.parentElement.parentElement.lastElementChild.firstChild
-        target.parentElement.parentElement.lastElementChild.removeChild(delNd)
+        // target.innerHTML = '&#9998;'
+        target.dataset.edit = 'false'
+        // const delNd = target.parentElement.parentElement.lastElementChild.firstChild
+        // target.parentElement.parentElement.lastElementChild.removeChild(delNd)
 
       }catch(ex){
         // TODO: show error
@@ -131,14 +136,15 @@ async function edit(e){
     srcNd.disabled = false
     destNd.disabled = false
     srcNd.focus()
-    target.innerText = 'Save'
+    // target.innerHTML = '&#x1f4be;'
+    target.dataset.edit = 'true'
 
     // add delete button
     const delNd = document.createElement('button')
     delNd.classList.add('delete')
     delNd.innerHTML = 'X'
     delNd.addEventListener('click', deleteConfig)
-    target.parentElement.parentElement.lastElementChild.appendChild(delNd)
+    // target.parentElement.parentElement.lastElementChild.appendChild(delNd)
   }
   target.parentElement.parentElement.classList.toggle('edit')
 }
@@ -161,9 +167,11 @@ async function deleteConfig(e){
 async function toggleEnable(e){
   const idx = parseInt(e.currentTarget.parentElement.parentElement.dataset.idx, 10),
         conf = configs[idx],
-        enabled = e.currentTarget.checked
+        enabled = !(e.currentTarget.dataset.enabled === 'true') // click event changes the state
 
+  // set new state
   conf.enabled = enabled
+  e.currentTarget.dataset.enabled = enabled
   try{
     await save()
   }

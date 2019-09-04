@@ -46,6 +46,7 @@ class Switcherhost{
     console.log(Date.now() + ` Switcherhost start: ${this.sources.length} host${this.sources.length > 1 ? 's': ''}`)
 
     // build filter list from source hosts, so as to not watch for every request
+    // TODO: source may be not be host only. Parse string and use host only
     const urlFilter = this.sources.map(x => '*:' + x + '/*')
 
     browser.webRequest.onBeforeRequest.addListener(
