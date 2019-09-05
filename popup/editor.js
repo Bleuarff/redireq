@@ -13,6 +13,7 @@ init()
 
 function init(){
   console.debug(`popup: ${configs.length} configs stored.`)
+  document.getElementsByClassName('src')[0].focus()
   refresh()
   document.getElementById('add-btn').addEventListener('click', addConfig)
 }
@@ -36,8 +37,6 @@ async function addConfig(e){
         destNd = e.currentTarget.parentElement.getElementsByClassName('dest')[0],
         dest = destNd.value.trim()
 
-    console.log(srcNd.innerHTML)
-    console.log(dest.innerHTML)
     // TODO: validate values (via URL?)
    if (src && dest){
      const newConf = { src: src, dest: dest, enabled: true }
@@ -55,6 +54,8 @@ async function addConfig(e){
      }
    }
    // TODO: else: bold red border on offender
+
+   srcNd.focus()
 }
 
 // saves state
@@ -78,11 +79,9 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
     </td>
     <td>
       <span class="edit picto">&#9998;</span>
-      <!--<button class="edit">Edit</button>-->
     </td>
     <td>
       <span id="row-${idx}" class="state picto" data-enabled="${data.enabled ? 'true' : 'false'}">✓</span>
-      <!--<input type="checkbox" id="row-${idx}" class="state" ${data.enabled ? 'checked' : ''}>-->
     </td>
     <td>
       <span class="delete picto">&#x2715;</span>
@@ -91,6 +90,7 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
   nd.innerHTML = tmpl
   nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
   nd.getElementsByClassName('state')[0].addEventListener('click', toggleEnable)
+  nd.getElementsByClassName('delete')[0].addEventListener('click', deleteConfig)
 
   parent = parent || document.getElementById('row-ctnr')
   parent.appendChild(nd)
@@ -120,12 +120,9 @@ async function edit(e){
         // revert editing mode
         srcNd.disabled = true
         destNd.disabled = true
-        // target.innerHTML = '&#9998;'
         target.dataset.edit = 'false'
-        // const delNd = target.parentElement.parentElement.lastElementChild.firstChild
-        // target.parentElement.parentElement.lastElementChild.removeChild(delNd)
-
-      }catch(ex){
+      }
+      catch(ex){
         // TODO: show error
         console.error(ex)
       }
@@ -136,15 +133,7 @@ async function edit(e){
     srcNd.disabled = false
     destNd.disabled = false
     srcNd.focus()
-    // target.innerHTML = '&#x1f4be;'
     target.dataset.edit = 'true'
-
-    // add delete button
-    const delNd = document.createElement('button')
-    delNd.classList.add('delete')
-    delNd.innerHTML = 'X'
-    delNd.addEventListener('click', deleteConfig)
-    // target.parentElement.parentElement.lastElementChild.appendChild(delNd)
   }
   target.parentElement.parentElement.classList.toggle('edit')
 }
@@ -160,7 +149,6 @@ async function deleteConfig(e){
   catch(ex){
     console.error(ex)
   }
-
 }
 
 // checkbox change handler: update state

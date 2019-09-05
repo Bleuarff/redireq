@@ -68,6 +68,8 @@ button{
   cursor: pointer;
   margin-left: .5em;
   padding: 3px 7px;
+  -moz-user-select: none;
+  user-select: none; 
 }
 
 button:hover{
@@ -94,6 +96,7 @@ button:hover{
   animation-name: shakeit;
   animation-iteration-count: infinite;
   transform: rotate(150deg);
+  animation-delay: 1s;
 }
 
 @keyframes shakeit{
