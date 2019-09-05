@@ -60,22 +60,24 @@ input[type=text]{
   margin: none;
 }
 
-button{
-  border: 1px solid #c7c7c7;
-  border-radius: 4px;
-  background: #4f4f4f;
+#add-btn{
+  border: none;
+  background: #383838;
   color: white;
   cursor: pointer;
   margin-left: .5em;
-  padding: 3px 7px;
-  -moz-user-select: none;
-  user-select: none; 
+  font-size: 1.15em;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: 1px solid white;
 }
 
-button:hover{
-  color: black;
-  background: #c7c7c7;
-  border-color: #4f4f4f;
+#add-btn:focus,
+#add-btn:hover{
+  outline: none;
+  background-color: #6b6b6b;
 }
 
 .picto{
@@ -115,4 +117,19 @@ button:hover{
 
 .delete.picto{
   color: #cf6565;
+}
+
+/* space between picto buttons */
+td.action:not(:last-child){
+  padding-right: 2em;
+}
+
+tr:hover{
+  background: #414141;
+}
+tr:hover input[disabled]{
+  background: #414141 !important;
+}
+table{
+  border-collapse:collapse;
 }

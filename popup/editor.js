@@ -77,14 +77,14 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
     <td>
       <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
     </td>
-    <td>
-      <span class="edit picto">&#9998;</span>
+    <td class="action">
+      <span class="edit picto" title="edit/save">&#9998;</span>
     </td>
-    <td>
-      <span id="row-${idx}" class="state picto" data-enabled="${data.enabled ? 'true' : 'false'}">✓</span>
+    <td class="action">
+      <span id="row-${idx}" class="state picto" data-enabled="${data.enabled ? 'true' : 'false'}" title="enable/disable">✓</span>
     </td>
-    <td>
-      <span class="delete picto">&#x2715;</span>
+    <td class="action">
+      <span class="delete picto" title="delete">&#x2715;</span>
     </td>
   `
   nd.innerHTML = tmpl
