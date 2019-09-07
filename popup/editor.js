@@ -36,29 +36,40 @@ async function addConfig(e){
         destNd = e.currentTarget.parentElement.getElementsByClassName('dest')[0],
         dest = destNd.value.trim()
 
-    // TODO: validate values (via URL?)
-   if (src && dest){
-     const newConf = { src: src, dest: dest, enabled: true }
-     configs.push(newConf)
+    srcNd.focus()
 
-     try{
-       await save() // Update background script
-       addRow(newConf, configs.length - 1) // add row to list
-       srcNd.value = '' // empty new row fields
-       destNd.value = ''
-     }
-     catch(ex){
-       console.error(ex)
-       // TODO: show error message
-     }
+    const err = validateConfig(src, dest)
+    if (err){
+      showError(err)
+      return
+    }
 
-     document.getElementById('error').classList.add('hidden')
+   const newConf = { src: src, dest: dest, enabled: true }
+   configs.push(newConf)
+
+   try{
+     await save() // Update background script
+     addRow(newConf, configs.length - 1) // add row to table
+     srcNd.value = '' // empty inputs
+     destNd.value = ''
    }
-   else{
-     showError(`Empty field${!src && !dest ?'s':''}.`)
+   catch(ex){
+     console.error(ex)
+     showError('Save error.')
    }
 
-   srcNd.focus()
+   document.getElementById('error').classList.add('hidden')
+}
+
+// Validation: returns an error message or nothing
+function validateConfig(src, dest){
+  if (!src || !dest)
+    return `Empty field${!src && !dest ?'s':''}.`
+
+  if (configs.some(cfg => src === cfg.src))
+    return 'Duplicate source host.'
+
+  return null
 }
 
 function showError(msg){
