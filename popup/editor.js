@@ -3,7 +3,6 @@
 /* UI script */
 
 // TODO:
-// - style
 // - error mgmt
 
 const STORAGE_KEY = 'configs'
@@ -52,10 +51,20 @@ async function addConfig(e){
        console.error(ex)
        // TODO: show error message
      }
+
+     document.getElementById('error').classList.add('hidden')
    }
-   // TODO: else: bold red border on offender
+   else{
+     showError(`Empty field${!src && !dest ?'s':''}.`)
+   }
 
    srcNd.focus()
+}
+
+function showError(msg){
+  const errNd = document.getElementById('error')
+  errNd.innerText = msg
+  errNd.classList.remove('hidden')
 }
 
 // saves state

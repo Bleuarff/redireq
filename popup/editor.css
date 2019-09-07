@@ -133,3 +133,14 @@ tr:hover input[disabled]{
 table{
   border-collapse:collapse;
 }
+
+#error{
+  color: #8e1111;
+  margin-top: .7em;
+  background: #787878;
+  padding: 4px 8px;
+}
+
+.hidden{
+  display: none !important;
+}
