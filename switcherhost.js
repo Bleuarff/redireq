@@ -45,9 +45,9 @@ class Switcherhost{
 
     console.log(Date.now() + ` Switcherhost start: ${this.sources.length} host${this.sources.length > 1 ? 's': ''}`)
 
-    // build filter list from source hosts, so as to not watch for every request
-    // TODO: source may be not be host only. Parse string and use host only
-    const urlFilter = this.sources.map(x => '*:' + x + '/*')
+    // build hosts list filter from sources, so as to not watch for every request
+    const urlFilter = this.buildHostList()
+    // console.log('filter: ' + urlFilter)
 
     browser.webRequest.onBeforeRequest.addListener(
       redirect,
@@ -86,6 +86,22 @@ class Switcherhost{
     browser.browserAction.setBadgeText({text: count.toString()})
     browser.browserAction.setBadgeTextColor({color: 'white'})
     browser.browserAction.setBadgeBackgroundColor({color: count ? '#666666' : '#a1a1a1'})
+  }
+
+  // parse source list items to get only the host part to build filter list
+  buildHostList(){
+    const hosts = this.sources.reduce((hosts, src) => {
+      try{
+        const uri = new URL(`https://${src}`)
+        hosts.push(`*://${uri.host}/*`)
+      }
+      catch(ex){ // can't parse, don't add to list
+        console.log('error parsing ' + src)
+      }
+      return hosts
+    }, [])
+
+    return hosts
   }
 }
 
