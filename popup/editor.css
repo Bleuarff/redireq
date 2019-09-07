@@ -134,7 +134,7 @@ table{
   border-collapse:collapse;
 }
 
-#error{
+.error{
   color: #8e1111;
   margin-top: .7em;
   background: #787878;

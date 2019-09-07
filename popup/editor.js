@@ -2,9 +2,6 @@
 
 /* UI script */
 
-// TODO:
-// - error mgmt
-
 const STORAGE_KEY = 'configs'
 const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
 
@@ -52,28 +49,30 @@ async function addConfig(e){
      addRow(newConf, configs.length - 1) // add row to table
      srcNd.value = '' // empty inputs
      destNd.value = ''
+     document.getElementById('add-error').classList.add('hidden')
    }
    catch(ex){
      console.error(ex)
      showError('Save error.')
    }
 
-   document.getElementById('error').classList.add('hidden')
 }
 
 // Validation: returns an error message or nothing
-function validateConfig(src, dest){
+function validateConfig(src, dest, idx = -1){
   if (!src || !dest)
     return `Empty field${!src && !dest ?'s':''}.`
 
-  if (configs.some(cfg => src === cfg.src))
+  // check duplicate source: if new conf or if existing conf w/ changed source value (otherwise matches itself).
+  if ((idx === -1 || idx !== -1 && src !== configs[idx].src) && configs.some(cfg => src === cfg.src))
     return 'Duplicate source host.'
 
   return null
 }
 
-function showError(msg){
-  const errNd = document.getElementById('error')
+// show given error message in given node id
+function showError(msg, id = 'add-error'){
+  const errNd = document.getElementById(id)
   errNd.innerText = msg
   errNd.classList.remove('hidden')
 }
@@ -127,25 +126,31 @@ async function edit(e){
   // checks for class on row block
   if (e.currentTarget.parentElement.parentElement.classList.contains('edit')){
     // save
-    // TODO: more validation? tryparse?
-    if (srcNd.value && destNd.value){
-      const conf = configs[idx]
-      conf.src = srcNd.value
-      conf.dest = destNd.value
-      conf.enabled = (e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].dataset.enabled === 'true')
 
-      try{
-        await save()
+    // validation
+    const err = validateConfig(srcNd.value, destNd.value, idx)
+    if (err){
+      showError(err, 'edit-error')
+      return
+    }
 
-        // revert editing mode
-        srcNd.disabled = true
-        destNd.disabled = true
-        target.dataset.edit = 'false'
-      }
-      catch(ex){
-        // TODO: show error
-        console.error(ex)
-      }
+    const conf = configs[idx]
+    conf.src = srcNd.value
+    conf.dest = destNd.value
+    conf.enabled = (e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].dataset.enabled === 'true')
+
+    try{
+      await save()
+
+      // revert editing mode
+      srcNd.disabled = true
+      destNd.disabled = true
+      target.dataset.edit = 'false'
+      document.getElementById('edit-error').classList.add('hidden')
+    }
+    catch(ex){
+      console.error(ex)
+      showError('Save error.', 'edit-error')
     }
   }
   else{
