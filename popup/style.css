@@ -9,6 +9,7 @@ body {
   background: #383838;
   color: white;
   padding-top: 1.5em;
+  padding-bottom: 1.3em;
 }
 
 h1{
@@ -18,10 +19,6 @@ h1{
 
 .row{
   margin-bottom: .5em;
-  /* display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center; */
 }
 
 .row :first-child{
@@ -32,13 +29,6 @@ h1{
   text-align:right;
   direction: rtl;
 }
-
-.row :last-child{
-  /* margin-right: 2em; */
-}
-/* .row.edit label{
-  margin
-} */
 
 .row input[disabled]{
   border: none;
@@ -124,14 +114,26 @@ td.action:not(:last-child){
   padding-right: 2em;
 }
 
-tr:hover{
+tbody tr:hover{
   background: #414141;
 }
-tr:hover input[disabled]{
+tbody tr:hover input[disabled]{
   background: #414141 !important;
 }
 table{
   border-collapse:collapse;
+}
+
+th{
+  font-size: 1.1em;
+  /* border-bottom: 1px solid white; */
+  padding-bottom: .5em;
+}
+th:first-child{
+    text-align: right;
+}
+th:nth-child(3){
+    text-align: left;
 }
 
 .error{
@@ -143,4 +145,12 @@ table{
 
 .hidden{
   display: none !important;
+}
+
+#version{
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  font-size: .85em;
+  color: white;
 }

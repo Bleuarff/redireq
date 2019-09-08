@@ -2,11 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="editor.css"></link>
+    <link rel="stylesheet" href="style.css"></link>
   </head>
   <body>
 
     <table>
+      <thead>
+        <th>Source</th>
+        <th></th>
+        <th>Destination</th>
+      </thead>
       <tbody id="row-ctnr">
       </tbody>
     </table>
@@ -19,6 +24,8 @@
       <button id="add-btn">Add</button>
     </div>
     <div id="add-error" class="error hidden"></div>
+
+    <span id="version"></div>
 
     <script src="./editor.js"></script>
   </body>

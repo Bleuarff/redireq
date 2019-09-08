@@ -33,6 +33,9 @@ class Switcherhost{
     const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
     this.updateConfigs(configs)
     console.debug(`found ${Object.keys(this.mapping).length} configs stored.`)
+
+    browser.browserAction.setBadgeTextColor({color: 'white'})
+    browser.browserAction.setBadgeBackgroundColor({color: '#666666'})
   }
 
   start(){
@@ -83,9 +86,7 @@ class Switcherhost{
 
   updateBadge(){
     const count = this.sources.length
-    browser.browserAction.setBadgeText({text: count.toString()})
-    browser.browserAction.setBadgeTextColor({color: 'white'})
-    browser.browserAction.setBadgeBackgroundColor({color: count ? '#666666' : '#a1a1a1'})
+    browser.browserAction.setBadgeText({text: count ? count.toString() : ''})
   }
 
   // parse source list items to get only the host part to build filter list

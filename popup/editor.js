@@ -12,6 +12,9 @@ function init(){
   document.getElementsByClassName('src')[0].focus()
   refresh()
   document.getElementById('add-btn').addEventListener('click', addConfig)
+
+  document.getElementById('version').innerText = 'v' + browser.runtime.getManifest().version
+  refreshHeader()
 }
 
 // clear container & show all configs
@@ -81,6 +84,8 @@ function showError(msg, id = 'add-error'){
 async function save(){
   await browser.runtime.sendMessage(configs) // update bg script
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(configs)) // update local storage
+
+  refreshHeader()
 }
 
 // inserts row in ui, bind controls
@@ -191,4 +196,9 @@ async function toggleEnable(e){
   catch(ex){
     console.log(ex)
   }
+}
+
+// show table header only if table is not empty
+function refreshHeader(){
+  document.getElementsByTagName('thead')[0].classList[configs.length?'remove':'add']('hidden')
 }
