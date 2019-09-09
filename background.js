@@ -23,7 +23,7 @@ function redirect(details){
 }
 
 // handles binding onBeforeRequest & redirections
-class Switcherhost{
+class Redireq{
   constructor(){
     this.mapping = null // [{src: dest}] mapping
     this.sources = null // array of source hosts
@@ -42,11 +42,11 @@ class Switcherhost{
     this.updateBadge()
 
     if (this.sources.length === 0){
-      console.debug('Switcherhost start: no host to redirect, cancel.')
+      console.debug('Redireq start: no host to redirect, cancel.')
       return
     }
 
-    console.log(Date.now() + ` Switcherhost start: ${this.sources.length} host${this.sources.length > 1 ? 's': ''}`)
+    console.log(Date.now() + ` Redireq start: ${this.sources.length} host${this.sources.length > 1 ? 's': ''}`)
 
     // build hosts list filter from sources, so as to not watch for every request
     const urlFilter = this.buildHostList()
@@ -106,6 +106,6 @@ class Switcherhost{
   }
 }
 
-const swh = new Switcherhost()
+const swh = new Redireq()
 swh.start()
 browser.runtime.onMessage.addListener(data => {swh.restart(data)})

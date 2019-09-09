@@ -1,13 +1,13 @@
 {
 
   "manifest_version": 2,
-  "name": "Switcherhost",
-  "version": "0.1",
+  "name": "Redireq",
+  "version": "1.0",
 
   "description": "Redirects requests to another host, live",
 
   "background": {
-    "scripts": ["switcherhost.js"]
+    "scripts": ["background.js"]
   },
 
   "permissions": [
