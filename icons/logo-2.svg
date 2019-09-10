@@ -10,9 +10,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="80.669479mm"
-   height="80.669479mm"
-   viewBox="0 0 285.83674 285.83672"
+   width="112.23987mm"
+   height="111.98313mm"
+   viewBox="0 0 397.70032 396.7906"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -38,26 +38,26 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.5600001"
-     inkscape:cx="156.94901"
-     inkscape:cy="156.71793"
+     inkscape:zoom="1.2800001"
+     inkscape:cx="357.46184"
+     inkscape:cy="268.23633"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer3"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1026"
-     inkscape:window-x="0"
+     inkscape:window-height="1053"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     fit-margin-top="2"
-     fit-margin-left="2.929695"
-     fit-margin-right="2.929695"
-     fit-margin-bottom="2">
+     fit-margin-top="20"
+     fit-margin-left="20"
+     fit-margin-right="20"
+     fit-margin-bottom="20">
     <inkscape:grid
        type="xygrid"
        id="grid4684"
-       originx="-509.08236"
-       originy="-1254.2364" />
+       originx="-445.80992"
+       originy="-1197.7793" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -73,10 +73,23 @@
   </metadata>
   <g
      inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="rond">
+    <ellipse
+       style="fill:#9397b3;fill-opacity:1;stroke:none;stroke-width:1.29999995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4154"
+       cx="173.45399"
+       cy="260.95395"
+       rx="180.82726"
+       ry="181.30118"
+       transform="matrix(0.95487213,-0.29701719,0.1477797,0.9890203,0,0)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="fleche1"
      style="display:inline"
-     transform="translate(-199.47676,-142.95058)">
+     transform="translate(-136.20433,-88.453736)">
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#434343;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 217.36978,262.78632 112.78689,0"
@@ -141,13 +154,32 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-199.47676,-142.95058)">
+     transform="translate(-136.20433,-88.453736)">
     <ellipse
-       style="fill:#73888b;fill-opacity:1;stroke:#ffffff;stroke-width:1.138;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#7cf3e9;fill-opacity:1;stroke:none;stroke-width:1.138;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4162"
-       cx="314.38116"
-       cy="286.84906"
+       cx="383.05154"
+       cy="185.44382"
        rx="43.18956"
-       ry="131.81183" />
+       ry="131.81183"
+       transform="matrix(0.95859425,0.28477545,-0.28477545,0.95859425,0,0)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="text"
+     transform="translate(63.272427,54.496844)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:70px;line-height:125%;font-family:Umpush;-inkscape-font-specification:Umpush;letter-spacing:0px;word-spacing:0px;fill:#1f157c;fill-opacity:1;stroke:#1f157c;stroke-width:1.29999995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="30.087864"
+       y="86.010681"
+       id="text4149"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4151"
+         x="30.087864"
+         y="86.010681"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:70px;line-height:0%;font-family:Umpush;-inkscape-font-specification:Umpush;fill:#1f157c;fill-opacity:1;stroke:#1f157c;stroke-width:1.29999995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">Redireq</tspan></text>
   </g>
 </svg>
