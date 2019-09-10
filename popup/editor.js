@@ -93,13 +93,14 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
   const nd = document.createElement('tr')
   nd.classList.add('row')
   nd.dataset.idx = idx
+
   const tmpl = `
     <td>
-      <input type="text" class="src" value="${data.src}" disabled placeholder="source host"></input>
+      <input type="text" class="src" value="" disabled placeholder="source host"></input>
     </td>
     <td class="separator">→</td>
     <td>
-      <input type="text" class="dest" value="${data.dest}" disabled placeholder="destination host"></input>
+      <input type="text" class="dest" value="" disabled placeholder="destination host"></input>
     </td>
     <td class="action">
       <span class="edit picto" title="edit/save">&#9998;</span>
@@ -111,7 +112,12 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
       <span class="delete picto" title="delete">&#x2715;</span>
     </td>
   `
+
+  // innerHTML assignment can lead to security issues (HTML injection) if it contains unsanitized user input.
+  // No risk here, user input consists only of text field values that are set afterwards.
   nd.innerHTML = tmpl
+  nd.getElementsByClassName('src')[0].value = data.src
+  nd.getElementsByClassName('dest')[0].value = data.dest
   nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
   nd.getElementsByClassName('state')[0].addEventListener('click', toggleEnable)
   nd.getElementsByClassName('delete')[0].addEventListener('click', deleteConfig)
