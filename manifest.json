@@ -20,12 +20,12 @@
   "browser_action": {
     "browser_style": true,
     "default_popup": "popup/editor.html",
-    "default_icon": {
-      "32": "icons/logo-32.png",
-      "48": "icons/logo-48.png",
-      "64": "icons/logo-64.png",
-      "96": "icons/logo-96.png"
-    }
+
+    "theme_icons": [{
+      "light": "img/icon-light-16.png",
+      "dark": "img/icon-dark-16.png",
+      "size": 16
+    }]
   }
 
 }
