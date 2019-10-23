@@ -52,10 +52,10 @@ class Redireq{
     const urlFilter = this.buildHostList()
     // console.log('filter: ' + urlFilter)
 
-    browser.webRequest.onBeforeRequest.addListener(
+    browser.webRequest.onHeadersReceived.addListener(
       redirect,
       {urls: urlFilter},
-      ["blocking"]
+      ['blocking']
     )
   }
 
@@ -63,9 +63,9 @@ class Redireq{
   restart(configs){
     try{
       this.updateConfigs(configs)
-      const bound = browser.webRequest.onBeforeRequest.hasListener(redirect)
+      const bound = browser.webRequest.onHeadersReceived.hasListener(redirect)
       if (bound){
-        browser.webRequest.onBeforeRequest.removeListener(redirect)
+        browser.webRequest.onHeadersReceived.removeListener(redirect)
       }
       this.start()
     }
