@@ -17,8 +17,8 @@
    viewBox="0 0 16 16"
    sodipodi:docname="icon.svg"
    inkscape:export-filename="/home/bleuarff/dev/redireq/img/newlogo.png"
-   inkscape:export-xdpi="1125"
-   inkscape:export-ydpi="1125">
+   inkscape:export-xdpi="771.43463"
+   inkscape:export-ydpi="771.43463">
   <defs
      id="defs5463">
     <marker
@@ -158,7 +158,9 @@
        d="m 15,10 -2.133975,3.232051 -1.73205,-3.4641018 z"
        inkscape:transform-center-x="0.005971021"
        inkscape:transform-center-y="0.35366294"
-       transform="matrix(0.6005533,-0.03991183,0.04139735,0.63455339,6.0398438,4.0185326)" />
+       transform="matrix(0.6005533,-0.03991183,0.04139735,0.63455339,6.0398438,4.0185326)"
+       inkscape:export-xdpi="1125"
+       inkscape:export-ydpi="1125" />
     <path
        sodipodi:type="star"
        style="display:inline;fill:#535353;fill-opacity:1;fill-rule:nonzero;stroke:#535353;stroke-width:1.63399994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -176,7 +178,9 @@
        d="m 15,10 -2.133975,3.232051 -1.73205,-3.4641018 z"
        inkscape:transform-center-x="0.005971021"
        inkscape:transform-center-y="0.35366294"
-       transform="matrix(0.6005533,-0.03991183,0.04139735,0.63455339,5.8679685,-1.0127174)" />
+       transform="matrix(0.6005533,-0.03991183,0.04139735,0.63455339,5.8679685,-1.0127174)"
+       inkscape:export-xdpi="1125"
+       inkscape:export-ydpi="1125" />
   </g>
   <g
      inkscape:groupmode="layer"
