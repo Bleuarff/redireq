@@ -36,41 +36,63 @@ async function addConfig(e){
         destNd = e.currentTarget.parentElement.getElementsByClassName('dest')[0],
         dest = destNd.value.trim()
 
-    srcNd.focus()
+  srcNd.focus()
 
-    const err = validateConfig(src, dest)
-    if (err){
-      showError(err)
+  const validStatus = validateConfig(src, dest)
+  if (validStatus){
+    showError(getErrorMessage(validStatus))
+    if (validStatus > 0)
       return
-    }
+  }
 
-   const newConf = { src: src, dest: dest, enabled: true }
-   configs.push(newConf)
+  const newConf = { src: src, dest: dest, enabled: validStatus === 0 }
+  configs.push(newConf)
 
-   try{
-     await save() // Update background script
-     addRow(newConf, configs.length - 1) // add row to table
-     srcNd.value = '' // empty inputs
-     destNd.value = ''
-     document.getElementById('add-error').classList.add('hidden')
-   }
-   catch(ex){
-     console.error(ex)
-     showError('Save error.')
-   }
+  try{
+    await save() // Update background script
+    addRow(newConf, configs.length - 1) // add row to table
+    srcNd.value = '' // empty inputs
+    destNd.value = ''
+    if (validStatus === 0)
+      document.getElementById('add-error').classList.add('hidden')
+  }
+  catch(ex){
+    console.error(ex)
+    showError('Save error.')
+  }
 
 }
 
-// Validation: returns an error message or nothing
+// Validation: returns error code
+// 0: OK
+// 1: missing field
+// 2: duplicate rule
+// -1: disable rule
 function validateConfig(src, dest, idx = -1){
   if (!src || !dest)
-    return `Empty field${!src && !dest ?'s':''}.`
+    return 1 // Empty field, fail --${!src && !dest ?'s':''}
 
-  // check duplicate source: if new conf or if existing conf w/ changed source value (otherwise matches itself).
-  if ((idx === -1 || idx !== -1 && src !== configs[idx].src) && configs.some(cfg => src === cfg.src))
-    return 'Duplicate source host.'
+  // Fail is same rule (source & dest) is already present
+  const hasDuplicate = configs.some((x, i) => src === x.src && dest === x.dest && i !== idx)
+  if (hasDuplicate)
+    return 2 // Duplicate entry, fail
 
-  return null
+  //  Same source is allowed, but rule is disabled if same source host is already enabled
+  const dupSource = configs.some((x, i) => src === x.src && x.enabled && i !== idx)
+  if (dupSource)
+    return -1
+
+  return 0
+}
+
+function getErrorMessage(status){
+  let msg
+  switch (status){
+    case 1: msg = 'Missing field'; break;
+    case 2: msg = 'Duplicate rule'; break;
+    case -1: msg = 'Rule disabled (duplicate source host)'; break;
+  }
+  return msg
 }
 
 // show given error message in given node id
@@ -139,16 +161,17 @@ async function edit(e){
     // save
 
     // validation
-    const err = validateConfig(srcNd.value, destNd.value, idx)
-    if (err){
-      showError(err, 'edit-error')
-      return
+    const validStatus = validateConfig(srcNd.value, destNd.value, idx)
+    if (validStatus){
+      showError(getErrorMessage(validStatus), 'edit-error')
+      if (validStatus > 0) // failure
+        return
     }
 
     const conf = configs[idx]
     conf.src = srcNd.value
     conf.dest = destNd.value
-    conf.enabled = (e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].dataset.enabled === 'true')
+    conf.enabled = (e.currentTarget.parentElement.parentElement.getElementsByClassName('state')[0].dataset.enabled === 'true' && validStatus === 0)
 
     try{
       await save()
@@ -157,7 +180,8 @@ async function edit(e){
       srcNd.disabled = true
       destNd.disabled = true
       target.dataset.edit = 'false'
-      document.getElementById('edit-error').classList.add('hidden')
+      if (validStatus === 0)
+        document.getElementById('edit-error').classList.add('hidden')
     }
     catch(ex){
       console.error(ex)
