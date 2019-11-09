@@ -222,9 +222,14 @@ async function toggleEnable(e){
 
   // set new state
   conf.enabled = enabled
-  e.currentTarget.dataset.enabled = enabled
+
+  // source host can only be enabled for one rule; disable other rules.
+  if (conf.enabled)
+    configs.filter((x, i) => x.src === conf.src && x.enabled && i !== idx).forEach(x => x.enabled = false)
+
   try{
     await save()
+    refresh()
   }
   catch(ex){
     console.log(ex)
