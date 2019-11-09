@@ -156,6 +156,8 @@ async function edit(e){
         target = e.currentTarget,
         idx = parseInt(target.parentElement.parentElement.dataset.idx, 10)
 
+  document.getElementById('add-error').classList.add('hidden')
+
   // checks for class on row block
   if (e.currentTarget.parentElement.parentElement.classList.contains('edit')){
     // save
@@ -182,6 +184,7 @@ async function edit(e){
       target.dataset.edit = 'false'
       if (validStatus === 0)
         document.getElementById('edit-error').classList.add('hidden')
+      refresh()
     }
     catch(ex){
       console.error(ex)
