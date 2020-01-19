@@ -8,6 +8,7 @@ const configs = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]')
 init()
 
 function init(){
+  configs.sort(sortFunction)
   console.debug(`popup: ${configs.length} configs stored.`)
   document.getElementsByClassName('src')[0].focus()
   refresh()
@@ -17,13 +18,25 @@ function init(){
   refreshHeader()
 }
 
+// sort configs by source host, alphabetically
+function sortFunction(a, b){
+  if (a.src < b.src) return -1
+  else if (a.src > b.src) return 1
+  else { // if same source, sort by dest
+    if (a.dest < b.dest) return -1
+    else if (a.dest > b.dest) return 1
+    else return 0 // means source and dest are identical, should not happen BTW.
+  }
+}
+
 // clear container & show all configs
 function refresh(){
   const ctnr = document.getElementById('row-ctnr'),
         clone = ctnr.cloneNode(false)
 
   configs.forEach((cfg, i) => {
-    addRow(cfg, i, clone)
+    const lastOfGroup = configs[i+1] && cfg.src !== configs[i+1].src // checks if conf if last for host: whether next conf has a different host
+    addRow(cfg, i, lastOfGroup, clone)
   })
 
   ctnr.parentElement.replaceChild(clone, ctnr)
@@ -47,10 +60,11 @@ async function addConfig(e){
 
   const newConf = { src: src, dest: dest, enabled: validStatus === 0 }
   configs.push(newConf)
+  configs.sort(sortFunction)
 
   try{
     await save() // Update background script
-    addRow(newConf, configs.length - 1) // add row to table
+    refresh()
     srcNd.value = '' // empty inputs
     destNd.value = ''
     if (validStatus === 0)
@@ -111,9 +125,11 @@ async function save(){
 }
 
 // inserts row in ui, bind controls
-function addRow(data = { src: '', dest: '', enabled: true}, idx, parent){
+function addRow(data = { src: '', dest: '', enabled: true}, idx, lastOfGroup = false, parent){
   const nd = document.createElement('tr')
   nd.classList.add('row')
+  if (lastOfGroup)
+    nd.classList.add('lastOfGroup')
   nd.dataset.idx = idx
 
   const tmpl = `

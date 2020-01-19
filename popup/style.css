@@ -17,8 +17,8 @@ h1{
     font-size: 1.2em;
 }
 
-.row{
-  margin-bottom: .5em;
+.row.lastOfGroup td{
+  padding-bottom: 12px;
 }
 
 .row :first-child{
