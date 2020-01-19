@@ -128,23 +128,25 @@ async function save(){
 function addRow(data = { src: '', dest: '', enabled: true}, idx, lastOfGroup = false, parent){
   const nd = document.createElement('tr')
   nd.classList.add('row')
-  if (lastOfGroup)
-    nd.classList.add('lastOfGroup')
   nd.dataset.idx = idx
+  nd.dataset.enabled = data.enabled
+
+  if (lastOfGroup)
+  nd.classList.add('lastOfGroup')
 
   const tmpl = `
-    <td>
-      <input type="text" class="src" value="" disabled placeholder="source host"></input>
+    <td class="toggle">
+      <input type="text" class="src" value="" readonly placeholder="source host"></input>
     </td>
-    <td class="separator">→</td>
-    <td>
-      <input type="text" class="dest" value="" disabled placeholder="destination host"></input>
+    <td class="separator toggle">→</td>
+    <td class="toggle">
+      <input type="text" class="dest" value="" readonly placeholder="destination host"></input>
+    </td>
+    <td class="action toggle">
+      <span id="row-${idx}" class="state picto" title="enable/disable">✓</span>
     </td>
     <td class="action">
-      <span class="edit picto" title="edit/save">&#9998;</span>
-    </td>
-    <td class="action">
-      <span id="row-${idx}" class="state picto" data-enabled="${data.enabled ? 'true' : 'false'}" title="enable/disable">✓</span>
+    <span class="edit picto" title="edit/save">&#9998;</span>
     </td>
     <td class="action">
       <span class="delete picto" title="delete">&#x2715;</span>
@@ -157,8 +159,10 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, lastOfGroup = f
   nd.getElementsByClassName('src')[0].value = data.src
   nd.getElementsByClassName('dest')[0].value = data.dest
   nd.getElementsByClassName('edit')[0].addEventListener('click', edit)
-  nd.getElementsByClassName('state')[0].addEventListener('click', toggleEnable)
   nd.getElementsByClassName('delete')[0].addEventListener('click', deleteConfig)
+
+  for (let tnd of nd.getElementsByClassName('toggle'))
+    tnd.addEventListener('click', toggleEnable)
 
   parent = parent || document.getElementById('row-ctnr')
   parent.appendChild(nd)
@@ -195,8 +199,8 @@ async function edit(e){
       await save()
 
       // revert editing mode
-      srcNd.disabled = true
-      destNd.disabled = true
+      srcNd.readonly = true
+      destNd.readonly = true
       target.dataset.edit = 'false'
       if (validStatus === 0)
         document.getElementById('edit-error').classList.add('hidden')
@@ -209,8 +213,8 @@ async function edit(e){
   }
   else{
     // make editable
-    srcNd.disabled = false
-    destNd.disabled = false
+    srcNd.removeAttribute('readonly')
+    destNd.removeAttribute('readonly')
     srcNd.focus()
     target.dataset.edit = 'true'
   }
@@ -232,9 +236,9 @@ async function deleteConfig(e){
 
 // checkbox change handler: update state
 async function toggleEnable(e){
-  const idx = parseInt(e.currentTarget.parentElement.parentElement.dataset.idx, 10),
+  const idx = parseInt(e.currentTarget.parentElement.dataset.idx, 10),
         conf = configs[idx],
-        enabled = !(e.currentTarget.dataset.enabled === 'true') // click event changes the state
+        enabled = e.currentTarget.parentElement.dataset.enabled !== 'true' // click event changes the state
 
   // set new state
   conf.enabled = enabled

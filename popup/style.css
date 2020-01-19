@@ -30,10 +30,11 @@ h1{
   direction: rtl;
 }
 
-.row input[disabled]{
+.row input:-moz-read-only{
   border: none;
   background: #383838;
   color: white;
+  cursor: pointer;
 }
 
 #new-row{
@@ -42,6 +43,10 @@ h1{
 
 .separator{
   font-size: 1.4em;
+}
+
+.toggle{
+  cursor: pointer;
 }
 
 input[type=text]{
@@ -98,10 +103,11 @@ input[type=text]{
   10% {transform: translateY(0) rotate(150deg);}
 }
 
-.state[data-enabled="true"]{
+.row[data-enabled="true"] .state{
   color: #09c309;
 }
-.state[data-enabled="false"]{
+
+.row[data-enabled="false"] .state{
   color: #aaaaaa;
 }
 
@@ -117,7 +123,7 @@ td.action:not(:last-child){
 tbody tr:hover{
   background: #414141;
 }
-tbody tr:hover input[disabled]{
+tbody tr:hover input:-moz-read-only{
   background: #414141 !important;
 }
 table{
