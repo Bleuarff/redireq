@@ -103,6 +103,13 @@ input[type=text]{
   10% {transform: translateY(0) rotate(150deg);}
 }
 
+
+.action .state,
+.action .edit,
+.action .delete{
+  caret-color: transparent;
+}
+
 .row[data-enabled="true"] .state{
   color: #09c309;
 }

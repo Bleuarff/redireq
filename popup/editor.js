@@ -143,13 +143,13 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, lastOfGroup = f
       <input type="text" class="dest" value="" readonly placeholder="destination host"></input>
     </td>
     <td class="action toggle">
-      <span id="row-${idx}" class="state picto" title="enable/disable">✓</span>
+      <span id="row-${idx}" class="state picto" title="enable/disable" tabindex="0">✓</span>
     </td>
     <td class="action">
-      <span class="edit picto" title="edit/save">&#9998;</span>
+      <span class="edit picto" title="edit/save" tabindex="0">&#9998;</span>
     </td>
     <td class="action">
-      <span class="delete picto" title="delete">&#x2715;</span>
+      <span class="delete picto" title="delete" tabindex="0">&#x2715;</span>
     </td>
   `
 
@@ -163,6 +163,14 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, lastOfGroup = f
 
   for (let tnd of nd.getElementsByClassName('toggle'))
     tnd.addEventListener('click', toggleEnable)
+
+  // bind enter keypress to click for all action buttons (toggle, edit, delete)
+  nd.querySelectorAll('.action.toggle, .edit, .delete').forEach(nd => {
+    nd.addEventListener('keypress', e => {
+      if (e.code === 'Enter')
+        e.currentTarget.click()
+    })
+  })
 
   parent = parent || document.getElementById('row-ctnr')
   parent.appendChild(nd)
