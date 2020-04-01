@@ -146,7 +146,7 @@ function addRow(data = { src: '', dest: '', enabled: true}, idx, lastOfGroup = f
       <span id="row-${idx}" class="state picto" title="enable/disable">✓</span>
     </td>
     <td class="action">
-    <span class="edit picto" title="edit/save">&#9998;</span>
+      <span class="edit picto" title="edit/save">&#9998;</span>
     </td>
     <td class="action">
       <span class="delete picto" title="delete">&#x2715;</span>
@@ -239,6 +239,10 @@ async function toggleEnable(e){
   const idx = parseInt(e.currentTarget.parentElement.dataset.idx, 10),
         conf = configs[idx],
         enabled = e.currentTarget.parentElement.dataset.enabled !== 'true' // click event changes the state
+
+  // fix issue #3: if the row is in edit mode, proceed to toggle only if target is the enable/disable button
+  if (e.currentTarget.parentElement.classList.contains('edit') && !e.currentTarget.classList.contains('action'))
+    return
 
   // set new state
   conf.enabled = enabled
