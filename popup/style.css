@@ -92,15 +92,15 @@ input[type=text]{
   animation-duration: 2s;
   animation-name: shakeit;
   animation-iteration-count: infinite;
-  transform: rotate(150deg);
+  transform: rotate(180deg);
   animation-delay: 1s;
 }
 
 @keyframes shakeit{
-  0% {transform: translateY(0) rotate(150deg);}
-  2.5% {transform: translateY(-5px) rotate(150deg);}
-  7.5% {transform: translateY(8px) rotate(150deg);}
-  10% {transform: translateY(0) rotate(150deg);}
+  0% {transform: translateY(0) rotate(180deg);}
+  2.5% {transform: translateY(-5px) rotate(170deg);}
+  7.5% {transform: translateY(8px) rotate(190deg);}
+  10% {transform: translateY(0) rotate(180deg);}
 }
 
 
