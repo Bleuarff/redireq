@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Redireq",
-  "version": "1.4",
+  "version": "1.5",
 
   "description": "Redirects requests to another host, live",
 
