@@ -21,10 +21,6 @@ h1{
   padding-bottom: 12px;
 }
 
-.row :first-child{
-  text-align: right;
-}
-
 .row input.src{
   text-align:right;
   direction: rtl;
@@ -42,7 +38,10 @@ h1{
 }
 
 .separator{
+  --padding: .8em;
   font-size: 1.4em;
+  padding-left: var(--padding);
+  padding-right: var(--padding);
 }
 
 .toggle{
